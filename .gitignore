@@ -1,2 +1,12 @@
 **/build
 **/out
+**/bin
+**/target
+**/.gradle
+**/.settings
+**/.classpath
+**/.project
+**/.vscode
+**/deployments
+**/.apt_generated
+**/.factorypath
