@@ -5,6 +5,7 @@ plugins {
     id "com.github.spotbugs" version "4.6.0"
     id "org.springframework.boot" version "2.2.4.RELEASE" apply false
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "com.diffplug.eclipse.apt" version "3.32.2"
 }
 
 apply from: "$rootDir/tasks/revisions.gradle"
@@ -14,6 +15,8 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: "com.diffplug.spotless"
     apply plugin: "io.spring.dependency-management"
+    apply plugin: 'eclipse'
+    apply plugin: "com.diffplug.eclipse.apt"
     dependencyManagement {
         imports {
             mavenBom "io.zephyr:bom-imported:$project.version"
@@ -27,6 +30,20 @@ allprojects {
         maven {
             url "https://repository.mulesoft.org/nexus/content/repositories/public/"
         }
+    }
+
+    pluginManager.withPlugin('java') {
+      eclipse {
+        synchronizationTasks eclipseJdtApt, eclipseJdt, eclipseFactorypath
+
+        jdt {
+          file {
+            withProperties { props ->
+              props.setProperty "org.eclipse.jdt.core.circularClasspath", "warning"
+            }
+          }
+        }
+      }
     }
 
 
