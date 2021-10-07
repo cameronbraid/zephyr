@@ -10,4 +10,5 @@ public class StatusException extends KernelException {
     super(status.message, status.getCause().orElse(null));
     this.status = status;
   }
+  
 }
