@@ -5,6 +5,9 @@ if [ "$NEXUS_PASSWORD" = "" ]; then
   exit 0
 fi
 set -e
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+export JAVA_TOOL_OPTIONS='-Duser.language=en -Duser.country=US'
 mvn -DaltDeploymentRepository=drivenow.nexus::default::https://nexus.drivenow.com.au/repository/thirdparty -DskipTests deploy -f bom
-env JAVA_TOOL_OPTIONS='-Duser.language=en -Duser.country=US' gradle assemble build sA -x test
-env JAVA_TOOL_OPTIONS='-Duser.language=en -Duser.country=US' gradle publish -x test -PmavenRepositoryUsername=deployment -PmavenRepositoryPassword="${NEXUS_PASSWORD}" -PmavenRepositoryUrl=https://nexus.drivenow.com.au/repository/thirdparty
+env gradle assemble build sA -x test
+env gradle publish -x test -PmavenRepositoryUsername=deployment -PmavenRepositoryPassword="${NEXUS_PASSWORD}" -PmavenRepositoryUrl=https://nexus.drivenow.com.au/repository/thirdparty
